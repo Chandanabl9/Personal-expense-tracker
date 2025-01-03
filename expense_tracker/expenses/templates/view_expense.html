@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Expenses</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h2 class="text-3xl font-semibold text-center mb-6">View Your Expenses</h2>
+
+        <!-- Filter Form -->
+        <form method="GET" class="mb-6">
+            <div class="flex items-center space-x-4">
+                <div>
+                    <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+                    <input type="text" name="category" value="{{ category_filter }}" placeholder="Filter by category" class="mt-1 block w-full rounded-md border-gray-300">
+                </div>
+                <div>
+                    <label for="date" class="block text-sm font-medium text-gray-700">Date</label>
+                    <input type="date" name="date" value="{{ date_filter }}" class="mt-1 block w-full rounded-md border-gray-300">
+                </div>
+                <div>
+                    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Filter</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Expenses List -->
+        <table class="min-w-full bg-white shadow-md rounded-lg">
+            <thead>
+                <tr class="border-b">
+                    <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">Category</th>
+                    <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">Amount</th>
+                    <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">Description</th>
+                    <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">Date</th>
+                    <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expense in expenses %}
+                <tr class="border-b">
+                    <td class="py-3 px-4 text-sm text-gray-600">{{ expense.category }}</td>
+                    <td class="py-3 px-4 text-sm text-gray-600">${{ expense.amount }}</td>
+                    <td class="py-3 px-4 text-sm text-gray-600">{{ expense.description }}</td>
+                    <td class="py-3 px-4 text-sm text-gray-600">{{ expense.date }}</td>
+                    <td class="py-3 px-4 text-sm text-gray-600">
+                        <a href="{% url 'edit_expense' expense.id %}" class="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600">Edit</a>
+
+                        <form action="{% url 'delete_expense' expense.id %}" method="POST" class="inline-block">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="py-3 px-4 text-sm text-gray-600 text-center">No expenses found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Go Back to Dashboard Button -->
+        <div class="mt-6 text-center">
+            <a href="{% url 'dashboard' %}" class="bg-gray-300 text-black py-2 px-4 rounded shadow hover:bg-gray-400">
+                Go Back to Dashboard
+            </a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-900">
+
+    <!-- Header Section -->
+    <header class="bg-blue-600 text-white py-6">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="text-4xl font-bold">Expense Tracker Login</h1>
+            <p class="mt-2 text-lg">Welcome back! Please log in to continue.</p>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <main class="py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h2 class="text-3xl font-semibold text-center mb-6 text-blue-600">Login to Your Account</h2>
+
+                <!-- Login Form -->
+                <form method="POST" class="space-y-6">
+                    {% csrf_token %}
+                    
+                    <!-- Email Field -->
+<div class="mb-4">
+    <label for="id_username" class="block text-sm font-medium text-gray-700">Email</label>
+    {{ form.username }}
+</div>
+
+<!-- Password Field -->
+<div class="mb-4">
+    <label for="id_password" class="block text-sm font-medium text-gray-700">Password</label>
+    {{ form.password }}
+</div>
+
+                    <!-- Login Button -->
+                    <div class="mb-6">
+                        <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300">
+                            Login
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Messages -->
+                {% if messages %}
+                    <div class="mt-4">
+                        <ul class="text-red-600">
+                            {% for message in messages %}
+                                <li class="text-sm">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <!-- Register Link -->
+                <div class="mt-6 text-center">
+                    <p class="text-sm">
+                        Don't have an account? 
+                        <a href="{% url 'signup' %}" class="text-blue-600 hover:text-blue-700 transition duration-300">Sign up here</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-white py-4 text-center">
+        &copy; 2025 Expense Tracker. All rights reserved.
+    </footer>
+
+</body>
+</html>

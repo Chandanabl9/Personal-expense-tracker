@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Monthly Limit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h2 class="text-3xl font-semibold text-center mb-6">Set Your Monthly Limit</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="limit" class="block text-sm font-medium text-gray-700">Monthly Limit</label>
+                <input type="number" step="0.01" name="limit" id="limit" class="mt-1 block w-full rounded-md border-gray-300" required>
+            </div>
+            <div class="mb-6">
+                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Submit</button>
+            </div>
+        </form>
+        
+        <!-- Go Back to Dashboard Button -->
+        <div class="mt-6 text-center">
+            <a href="{% url 'dashboard' %}" class="bg-gray-300 text-black py-2 px-4 rounded shadow hover:bg-gray-400">
+                Go Back to Dashboard
+            </a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Expense Summary</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-900">
+
+    <!-- Header Section -->
+    <header class="bg-blue-600 text-white py-6">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="text-4xl font-bold">Monthly Expense Summary</h1>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="py-8">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="bg-white p-6 shadow-lg rounded-lg">
+                <h2 class="text-2xl font-semibold mb-4">Expenses by Month</h2>
+                <div class="mt-6">
+                    <canvas id="monthlyBarChart" width="400" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Go Back to Dashboard Button -->
+    <div class="mt-6 text-center">
+        <a href="{% url 'dashboard' %}" class="bg-gray-300 text-black py-2 px-4 rounded shadow hover:bg-gray-400">
+            Go Back to Dashboard
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4 text-center">
+        &copy; 2025 Expense Tracker. All rights reserved.
+    </footer>
+
+    <script>
+        // Data passed from Django view
+        const chartmonths = JSON.parse('{{ months|escapejs }}');
+        const expenses = JSON.parse('{{ total_expenses|escapejs }}');
+
+        const ctx = document.getElementById('monthlyBarChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: chartmonths, // Months as labels
+                datasets: [{
+                    label: 'Total Expenses',
+                    data: expenses, // Total expenses data
+                    backgroundColor: [
+                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.label}: $${context.raw.toFixed(2)}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
